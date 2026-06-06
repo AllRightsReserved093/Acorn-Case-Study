@@ -24,7 +24,7 @@ For event-loading performance, no formal statistical study was run. Based on rep
 
 ## Key Contribution: Hybrid Explore Search
 
-The Explore search system was not a simple keyword search wrapper. It used a layered retrieval pipeline:
+The Explore search system used a layered retrieval pipeline:
 
 ```mermaid
 flowchart LR
@@ -53,7 +53,7 @@ flowchart LR
 
 ### Why it mattered
 
-The main bottleneck was not just model response time. The system first needed to find a small, relevant set of candidate events from campus data. Without a retrieval layer, the AI path had too much noisy input and could take about a minute end to end.
+Model response time wasn't the main bottleneck. The system first needed to find a small, relevant set of candidate events from campus data. Without a retrieval layer, the AI path had too much noisy input and could take about a minute end to end.
 
 The hybrid search layer made the backend responsible for narrowing the search space before AI refinement. That changed the product behavior from slow, broad AI filtering to a more reliable retrieval-first system, bringing practical search latency under 10 seconds in the tested workflow.
 
@@ -87,7 +87,7 @@ flowchart TB
     API --> IOS
 ```
 
-The important design choice was that PostgreSQL search and AI refinement were optional acceleration layers, not single points of failure. If they were unavailable, the backend could still return results from Datastore-backed paths.
+The important design choice was that PostgreSQL search and AI refinement were optional acceleration layers. If they were unavailable, the backend could still return results from Datastore-backed paths.
 
 ## Reliability And Testing
 
